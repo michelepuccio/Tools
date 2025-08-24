@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI Calculator Partnership - Notion Export</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .chart-container { height: 300px; }
+         {
+            body { print-color-adjust: exact; }
+            .no-print { display: none; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 p-6">
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+        
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-8">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-calculator text-3xl mr-4"></i>
+                <div>
+                    <h1 class="text-3xl font-bold">ROI Calculator Partnership</h1>
+                    <p class="text-blue-100 mt-2">Calcola il ritorno sull'investimento dei tuoi programmi partner</p>
+                </div>
+            </div>
+            <div class="bg-white bg-opacity-20 rounded-lg p-4">
+                <p class="text-sm"><i class="fas fa-info-circle mr-2"></i>Strumento professionale per valutare la redditività degli investimenti in partnership strategiche</p>
+            </div>
+        </div>
+
+        <!-- Input Section -->
+        <div class="p-8">
+            <div class="grid md:grid-cols-2 gap-8">
+                
+                <!-- Investimenti Partnership -->
+                <div class="bg-red-50 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-red-800 mb-4 flex items-center">
+                        <i class="fas fa-arrow-down text-red-600 mr-2"></i>
+                        Investimenti Partnership
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Setup Iniziale Partner (€)</label>
+                            <input type="number" id="setupCost" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="25000" value="25000">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Training e Certificazioni (€)</label>
+                            <input type="number" id="trainingCost" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="15000" value="15000">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Marketing Support Annuale (€)</label>
+                            <input type="number" id="marketingCost" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="30000" value="30000">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Incentivi e Commissioni (€)</label>
+                            <input type="number" id="incentivesCost" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="50000" value="50000">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Supporto Tecnico Annuale (€)</label>
+                            <input type="number" id="supportCost" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="20000" value="20000">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-3 bg-red-100 rounded-md">
+                        <p class="text-sm text-red-700 font-medium">Investimento Totale: <span id="totalInvestment" class="font-bold">€140,000</span></p>
+                    </div>
+                </div>
+
+                <!-- Ritorni Partnership -->
+                <div class="bg-green-50 rounded-lg p-6">
+                    <h3 class="text-xl font-semibold text-green-800 mb-4 flex items-center">
+                        <i class="fas fa-arrow-up text-green-600 mr-2"></i>
+                        Ritorni Partnership
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Revenue Annuale da Partner (€)</label>
+                            <input type="number" id="partnerRevenue" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="180000" value="180000">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nuovi Clienti Acquisiti</label>
+                            <input type="number" id="newCustomers" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="24" value="24">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Customer Lifetime Value (€)</label>
+                            <input type="number" id="customerLTV" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="75000" value="75000">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Riduzione Costi Acquisizione (%)</label>
+                            <input type="number" id="costReduction" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="35" value="35">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Valore Risparmi Operativi (€)</label>
+                            <input type="number" id="operationalSavings" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="25000" value="25000">
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 p-3 bg-green-100 rounded-md">
+                        <p class="text-sm text-green-700 font-medium">Valore Totale Generato: <span id="totalReturns" class="font-bold">€2,005,000</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="bg-gray-100 p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Risultati Analisi ROI</h2>
+            
+            <!-- KPI Cards -->
+            <div class="grid md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white rounded-lg p-4 text-center shadow-md">
+                    <i class="fas fa-percentage text-2xl text-blue-600 mb-2"></i>
+                    <div class="text-2xl font-bold text-blue-600" id="roiPercentage">1332%</div>
+                    <div class="text-sm text-gray-600">ROI Percentuale</div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-4 text-center shadow-md">
+                    <i class="fas fa-euro-sign text-2xl text-green-600 mb-2"></i>
+                    <div class="text-2xl font-bold text-green-600" id="netProfit">€1,865,000</div>
+                    <div class="text-sm text-gray-600">Profitto Netto</div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-4 text-center shadow-md">
+                    <i class="fas fa-clock text-2xl text-purple-600 mb-2"></i>
+                    <div class="text-2xl font-bold text-purple-600" id="paybackPeriod">2.8</div>
+                    <div class="text-sm text-gray-600">Mesi Payback</div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-4 text-center shadow-md">
+                    <i class="fas fa-chart-line text-2xl text-orange-600 mb-2"></i>
+                    <div class="text-2xl font-bold text-orange-600" id="roiMultiplier">14.3x</div>
+                    <div class="text-sm text-gray-600">Moltiplicatore</div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="grid md:grid-cols-2 gap-8 mb-8">
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                    <h3 class="text-lg font-semibold mb-4">Breakdown Investimenti</h3>
+                    <div class="chart-container">
+                        <canvas id="investmentChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-lg p-6 shadow-md">
+                    <h3 class="text-lg font-semibold mb-4">ROI Progressivo nel Tempo</h3>
+                    <div class="chart-container">
+                        <canvas id="roiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interpretation -->
+            <div class="bg-white rounded-lg p-6 shadow-md">
+                <h3 class="text-lg font-semibold mb-4 flex items-center">
+                    <i class="fas fa-lightbulb text-yellow-500 mr-2"></i>
+                    Interpretazione Risultati
+                </h3>
+                
+                <div id="interpretation" class="space-y-3">
+                    <div class="flex items-start">
+                        <i class="fas fa-check-circle text-green-500 mr-3 mt-1"></i>
+                        <p class="text-gray-700"><strong>ROI Eccellente:</strong> Con un ROI del 1332%, questo investimento partnership genera un ritorno superiore alla media del settore (150-300%).</p>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <i class="fas fa-clock text-blue-500 mr-3 mt-1"></i>
+                        <p class="text-gray-700"><strong>Payback Rapido:</strong> Il periodo di recupero di 2.8 mesi è estremamente favorevole per investimenti partnership.</p>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <i class="fas fa-trending-up text-purple-500 mr-3 mt-1"></i>
+                        <p class="text-gray-700"><strong>Valore a Lungo Termine:</strong> Il Customer LTV generato attraverso i partner crea valore sostenibile nel tempo.</p>
+                    </div>
+                    
+                    <div class="flex items-start">
+                        <i class="fas fa-shield-alt text-orange-500 mr-3 mt-1"></i>
+                        <p class="text-gray-700"><strong>Raccomandazione:</strong> Investimento altamente raccomandato. Considera l'espansione del programma partner.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Benchmark Table -->
+            <div class="bg-white rounded-lg p-6 shadow-md mt-6">
+                <h3 class="text-lg font-semibold mb-4">Benchmark Settoriale</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-3 text-left font-medium text-gray-700">Metrica</th>
+                                <th class="px-4 py-3 text-center font-medium text-gray-700">Il Tuo Valore</th>
+                                <th class="px-4 py-3 text-center font-medium text-gray-700">Media Settore</th>
+                                <th class="px-4 py-3 text-center font-medium text-gray-700">Top Performer</th>
+                                <th class="px-4 py-3 text-center font-medium text-gray-700">Valutazione</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-4 py-3 font-medium">ROI Partnership</td>
+                                <td class="px-4 py-3 text-center text-green-600 font-bold" id="benchmarkROI">1332%</td>
+                                <td class="px-4 py-3 text-center">220%</td>
+                                <td class="px-4 py-3 text-center">400%</td>
+                                <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Eccellente</span></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">Payback Period</td>
+                                <td class="px-4 py-3 text-center text-green-600 font-bold" id="benchmarkPayback">2.8 mesi</td>
+                                <td class="px-4 py-3 text-center">8-12 mesi</td>
+                                <td class="px-4 py-3 text-center">4-6 mesi</td>
+                                <td class="px-4 py-3 text-center"><span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Eccellente</span></td>
+                            </tr>
+                            <tr>
+                                <td class="px-4 py-3 font-medium">Partner Revenue Growth</td>
+                                <td class="px-4 py-3 text-center text-green-600 font-bold">29%</td>
+                                <td class="px-4 py-3 text-center">15-25%</td>
+                                <td class="px-4 py-3 text-center">30-40%</td>
+                                <td class="px-4 py-3 text-center"><span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Buono</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-gray-800 text-white p-6 text-center">
+            <p class="text-gray-300 mb-2">
+                <i class="fas fa-user-tie mr-2"></i>
+                Creato da Esperto Channel Management
+            </p>
+            <p class="text-sm text-gray-400">Strumento professionale per analisi ROI partnership • Aggiornato 2024</p>
+        </div>
+    </div>
+
+    <script>
+        // Variables to store chart instances
+        let investmentChart, roiChart;
+
+        // Calculate and update all values
+        function updateCalculations() {
+            // Get input values
+            const setupCost = parseFloat(document.getElementById('setupCost').value) || 0;
+            const trainingCost = parseFloat(document.getElementById('trainingCost').value) || 0;
+            const marketingCost = parseFloat(document.getElementById('marketingCost').value) || 0;
+            const incentivesCost = parseFloat(document.getElementById('incentivesCost').value) || 0;
+            const supportCost = parseFloat(document.getElementById('supportCost').value) || 0;
+            
+            const partnerRevenue = parseFloat(document.getElementById('partnerRevenue').value) || 0;
+            const newCustomers = parseFloat(document.getElementById('newCustomers').value) || 0;
+            const customerLTV = parseFloat(document.getElementById('customerLTV').value) || 0;
+            const costReduction = parseFloat(document.getElementById('costReduction').value) || 0;
+            const operationalSavings = parseFloat(document.getElementById('operationalSavings').value) || 0;
+
+            // Calculate totals
+            const totalInvestment = setupCost + trainingCost + marketingCost + incentivesCost + supportCost;
+            const totalCustomerValue = newCustomers * customerLTV;
+            const costSavings = (partnerRevenue * costReduction) / 100;
+            const totalReturns = partnerRevenue + totalCustomerValue + costSavings + operationalSavings;
+            
+            // Calculate ROI metrics
+            const netProfit = totalReturns - totalInvestment;
+            const roiPercentage = totalInvestment > 0 ? ((netProfit / totalInvestment) * 100) : 0;
+            const roiMultiplier = totalInvestment > 0 ? (totalReturns / totalInvestment) : 0;
+            const paybackPeriod = partnerRevenue > 0 ? (totalInvestment / (partnerRevenue / 12)) : 0;
+
+            // Update display values
+            document.getElementById('totalInvestment').textContent = `€${totalInvestment.toLocaleString()}`;
+            document.getElementById('totalReturns').textContent = `€${totalReturns.toLocaleString()}`;
+            document.getElementById('roiPercentage').textContent = `${Math.round(roiPercentage)}%`;
+            document.getElementById('netProfit').textContent = `€${netProfit.toLocaleString()}`;
+            document.getElementById('paybackPeriod').textContent = `${paybackPeriod.toFixed(1)}`;
+            document.getElementById('roiMultiplier').textContent = `${roiMultiplier.toFixed(1)}x`;
+            document.getElementById('benchmarkROI').textContent = `${Math.round(roiPercentage)}%`;
+            document.getElementById('benchmarkPayback').textContent = `${paybackPeriod.toFixed(1)} mesi`;
+
+            // Update charts
+            updateCharts(setupCost, trainingCost, marketingCost, incentivesCost, supportCost, totalInvestment, totalReturns);
+        }
+
+        // Update charts
+        function updateCharts(setup, training, marketing, incentives, support, investment, returns) {
+            // Investment Breakdown Chart
+            if (investmentChart) {
+                investmentChart.destroy();
+            }
+            
+            const ctx1 = document.getElementById('investmentChart').getContext('2d');
+            investmentChart = new Chart(ctx1, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Setup Iniziale', 'Training', 'Marketing', 'Incentivi', 'Supporto'],
+                    datasets: [{
+                        data: [setup, training, marketing, incentives, support],
+                        backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'],
+                        borderWidth: 2,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // ROI Timeline Chart
+            if (roiChart) {
+                roiChart.destroy();
+            }
+            
+            const ctx2 = document.getElementById('roiChart').getContext('2d');
+            const monthlyReturn = returns / 12;
+            const cumulativeROI = [];
+            let cumulative = -investment;
+            
+            for (let i = 0; i < 12; i++) {
+                cumulative += monthlyReturn;
+                cumulativeROI.push(cumulative);
+            }
+            
+            roiChart = new Chart(ctx2, {
+                type: 'line',
+                data: {
+                    labels: ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic'],
+                    datasets: [{
+                        label: 'ROI Cumulativo (€)',
+                        data: cumulativeROI,
+                        borderColor: '#10B981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return '€' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Add event listeners to all inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                input.addEventListener('input', updateCalculations);
+            });
+            
+            // Initial calculation
+            updateCalculations();
+        });
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"974437a8ea57794e","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.8.0","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDnlBDaA%2Foxj1Fa7xczQZkR4fV2km3aD8q1TpGABmbWf0wTJ3PPPUgDopZc2Z6%2BmQUOOXTa%2B319pfKfur0iLWBvS1IiskAqvMzNjohoZbzrNdFhXKrGWiztnUeRL9kk5lGLFoxTGnNmVJFvEdf5nSsoJ%2BUX3EebARr7urkQ5Jx6qkQCjbQb7cIywKuYfm8gizyaDrMqwLQpDmny6jeZSrCRoIq7L5oSfyQs5qBPA65kAUeNWhZuQlApfBntic%2FH22r2wdmiYHZPqItb8BbC8Mug4LdPVloKT6XPd1PmWTWpcEnwT6Dy4tHWnlZvQ2szX4noL%2F3SnHMoLVG65Ygl8r3tQ%2F0AXrYyRVclAney%2BuiOpltASCxzCP6KAGRnVGhg5ykn%2FLRcFxVSGbz%2F5I7HnJnN%2B0U6cC9aZXnxgoa5EVQrpjdVhy7SbIOIXxEby7ZQ9DdRCC9chCVYuuJscaTpLL8ikffbhmM57M06GUJS0VDLVJW%2FKA3m20%2Foqh9Irf6at6acFg5nAprMQQlgsxlqTGnBQf3dzaH2GLJN514yVr2nqQiUG7I7BtRaeOVrBSSo0zOA%3D%3D";
+        window.__genspark_locale = "it-IT";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDnlBDaA/oxj1Fa7xczQZkR4fV2km3aD8q1TpGABmbWf0wTJ3PPPUgDopZc2Z6+mQUOOXTa+319pfKfur0iLWBvS1IiskAqvMzNjohoZbzrNdFhXKrGWiztnUeRL9kk5lGLFoxTGnNmVJFvEdf5nSsoJ+UX3EebARr7urkQ5Jx6qkQCjbQb7cIywKuYfm8gizyaDrMqwLQpDmny6jeZSrCRoIq7L5oSfyQs5qBPA65kAUeNWhZuQlApfBntic/H22r2wdmiYHZPqItb8BbC8Mug4LdPVloKT6XPd1PmWTWpcEnwT6Dy4tHWnlZvQ2szX4noL/3SnHMoLVG65Ygl8r3tQ/0AXrYyRVclAney+uiOpltASCxzCP6KAGRnVGhg5ykn/LRcFxVSGbz/5I7HnJnN+0U6cC9aZXnxgoa5EVQrpjdVhy7SbIOIXxEby7ZQ9DdRCC9chCVYuuJscaTpLL8ikffbhmM57M06GUJS0VDLVJW/KA3m20/oqh9Irf6at6acFg5nAprMQQlgsxlqTGnBQf3dzaH2GLJN514yVr2nqQiUG7I7BtRaeOVrBSSo0zOA==";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
