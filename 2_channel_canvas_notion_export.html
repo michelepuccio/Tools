@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Channel Strategy Canvas - Framework One-Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        .canvas-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 12px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .canvas-section {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            background: #f9fafb;
+            transition: all 0.3s ease;
+        }
+        
+        .canvas-section:hover {
+            border-color: #4f46e5;
+            background: #f8faff;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        
+        .textarea-field {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .textarea-field:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+        
+        .priority-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .priority-high {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+        
+        .priority-medium {
+            background: #fffbeb;
+            color: #d97706;
+            border: 1px solid #fed7aa;
+        }
+        
+        .priority-low {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .metric-box {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid #d1d5db;
+        }
+        
+        .metric-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #4f46e5;
+            margin-bottom: 4px;
+        }
+        
+        .metric-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        
+        .checkbox-item:last-child {
+            border-bottom: none;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        
+        .timeline-item {
+            border-left: 3px solid #4f46e5;
+            padding-left: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: #4f46e5;
+            border-radius: 50%;
+            position: absolute;
+            left: -6px;
+            top: 5px;
+        }
+        
+        .timeline-phase {
+            font-weight: 600;
+            color: #4f46e5;
+            margin-bottom: 5px;
+        }
+        
+        .risk-level {
+            width: 100%;
+            height: 8px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        
+        .risk-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .risk-low .risk-fill { width: 30%; background: #16a34a; }
+        .risk-medium .risk-fill { width: 60%; background: #d97706; }
+        .risk-high .risk-fill { width: 90%; background: #dc2626; }
+        
+         {
+            body {
+                background: white !important;
+                padding: 0 !important;
+            }
+            .canvas-container {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="max-w-7xl mx-auto">
+        <div class="canvas-container">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-8 text-center">
+                <h1 class="text-4xl font-bold mb-2">
+                    <i class="fas fa-project-diagram mr-3"></i>
+                    Channel Strategy Canvas
+                </h1>
+                <p class="text-xl opacity-90">Framework One-Page per Strategia Canale Completa</p>
+                <div class="mt-4 text-sm opacity-75">
+                    <i class="fas fa-calendar-alt mr-2"></i>
+                    Data Compilazione: <input type="date" class="bg-white text-gray-800 px-3 py-1 rounded ml-2">
+                    <span class="mx-4">|</span>
+                    <i class="fas fa-user mr-2"></i>
+                    Compilato da: <input type="text" placeholder="Nome" class="bg-white text-gray-800 px-3 py-1 rounded ml-2 w-40">
+                </div>
+            </div>
+
+            <!-- Main Canvas Grid -->
+            <div class="p-8">
+                <!-- Row 1: Company & Market Overview -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Company Profile -->
+                    <div class="canvas-section">
+                        <div class="section-header">
+                            <i class="fas fa-building mr-2"></i>Company Profile
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Nome Azienda</label>
+                                <input type="text" class="input-field" placeholder="Inserisci nome azienda">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Settore</label>
+                                <input type="text" class="input-field" placeholder="es. Technology, Healthcare">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Fatturato Annuale</label>
+                                <input type="text" class="input-field" placeholder="es. €10M">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Mercati Geografici</label>
+                                <textarea class="textarea-field" placeholder="es. Italia, EMEA, Global"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product/Service -->
+                    <div class="canvas-section">
+                        <div class="section-header">
+                            <i class="fas fa-box mr-2"></i>Prodotto/Servizio
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Offerta Principale</label>
+                                <textarea class="textarea-field" placeholder="Descrivi il tuo prodotto/servizio principale"></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Differenziatori Chiave</label>
+                                <textarea class="textarea-field" placeholder="Cosa ti distingue dalla concorrenza?"></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Prezzo di Listino</label>
+                                <input type="text" class="input-field" placeholder="Range di prezzo">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Target Market -->
+                    <div class="canvas-section">
+                        <div class="section-header">
+                            <i class="fas fa-bullseye mr-2"></i>Target Market
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Segmenti Clienti Primari</label>
+                                <textarea class="textarea-field" placeholder="es. SMB, Enterprise, Vertical specifici"></textarea>
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Dimensione Mercato (TAM)</label>
+                                <input type="text" class="input-field" placeholder="es. €500M in Italia">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Tasso di Crescita Mercato</label>
+                                <input type="text" class="input-field" placeholder="es. +15% annuo">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Channel Strategy Core -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Channel Partners -->
+                    <div class="canvas-section">
+                        <div class="section-header">
+                            <i class="fas fa-handshake mr-2"></i>Channel Partners Strategy
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-6">
+                                <h4 class="font-semibold text-gray-800 mb-3">Partner Types</h4>
+                                <div class="space-y-3">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="reseller">
+                                        <label for="reseller" class="text-sm">Reseller/Distributori</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="si">
+                                        <label for="si" class="text-sm">System Integrator</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="consultant">
+                                        <label for="consultant" class="text-sm">Consultant/Advisory</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="tech">
+                                        <label for="tech" class="text-sm">Technology Partners</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="oem">
+                                        <label for="oem" class="text-sm">OEM Partners</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Partner Ideali (Top 3)</label>
+                                <textarea class="textarea-field" placeholder="Lista i 3 partner ideali con cui vorresti collaborare"></textarea>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Criteri di Selezione Partner</label>
+                                <textarea class="textarea-field" placeholder="es. Coverage geografica, expertise verticale, base clienti"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Value Proposition -->
+                    <div class="canvas-section">
+                        <div class="section-header">
+                            <i class="fas fa-gem mr-2"></i>Value Proposition per Partner
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Margini Partner</label>
+                                <input type="text" class="input-field" placeholder="es. 25-40% margin">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Supporto Tecnico</label>
+                                <textarea class="textarea-field" placeholder="Pre-sales, implementazione, support L2/L3"></textarea>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Training & Certificazioni</label>
+                                <textarea class="textarea-field" placeholder="Programmi di formazione e certificazione offerti"></textarea>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Marketing Support</label>
+                                <textarea class="textarea-field" placeholder="MDF, lead sharing, co-marketing"></textarea>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Incentivi Speciali</label>
+                                <textarea class="textarea-field" placeholder="Bonus, rebates, SPIFFs"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 3: Go-to-Market Strategy -->
+                <div class="canvas-section mb-8">
+                    <div class="section-header">
+                        <i class="fas fa-rocket mr-2"></i>Go-to-Market Strategy
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-3">Canale Diretto vs Indiretto</h4>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">% Vendite Dirette</label>
+                                    <input type="range" min="0" max="100" value="30" class="w-full" oninput="document.getElementById('direct-value').textContent = this.value + '%'">
+                                    <div class="text-center text-sm text-gray-600 mt-1">
+                                        <span id="direct-value">30%</span>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">% Vendite Partner</label>
+                                    <input type="range" min="0" max="100" value="70" class="w-full" oninput="document.getElementById('partner-value').textContent = this.value + '%'">
+                                    <div class="text-center text-sm text-gray-600 mt-1">
+                                        <span id="partner-value">70%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-3">Strategia di Pricing</h4>
+                                <div class="space-y-3">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="competitive">
+                                        <label for="competitive" class="text-sm">Competitive Pricing</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="premium">
+                                        <label for="premium" class="text-sm">Premium Pricing</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="value">
+                                        <label for="value" class="text-sm">Value-Based</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="bundled">
+                                        <label for="bundled" class="text-sm">Bundled Solutions</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-3">Canali di Marketing</h4>
+                                <div class="space-y-3">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="events">
+                                        <label for="events" class="text-sm">Eventi/Fiere</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="digital">
+                                        <label for="digital" class="text-sm">Digital Marketing</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="webinar">
+                                        <label for="webinar" class="text-sm">Webinar</label>
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="referral">
+                                        <label for="referral" class="text-sm">Partner Referral</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 4: Metrics & KPIs -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="canvas-section">
+                        <div class="section-header">
+                            <i class="fas fa-chart-line mr-2"></i>Metriche & KPIs
+                        </div>
+                        <div class="p-6">
+                            <div class="grid grid-cols-2 gap-4 mb-6">
+                                <div class="metric-box">
+                                    <div class="metric-value">€<input type="text" placeholder="0" class="bg-transparent border-none text-center w-20 text-2xl font-bold text-indigo-600"></div>
+                                    <div class="metric-label">Revenue Target Annuale</div>
+                                </div>
+                                <div class="metric-box">
+                                    <div class="metric-value"><input type="text" placeholder="0" class="bg-transparent border-none text-center w-12 text-2xl font-bold text-indigo-600"></div>
+                                    <div class="metric-label">Numero Partner Target</div>
+                                </div>
+                                <div class="metric-box">
+                                    <div class="metric-value">€<input type="text" placeholder="0" class="bg-transparent border-none text-center w-20 text-2xl font-bold text-indigo-600"></div>
+                                    <div class="metric-label">Revenue per Partner</div>
+                                </div>
+                                <div class="metric-box">
+                                    <div class="metric-value"><input type="text" placeholder="0" class="bg-transparent border-none text-center w-12 text-2xl font-bold text-indigo-600">%</div>
+                                    <div class="metric-label">Partner Attach Rate</div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Altri KPI da Monitorare</label>
+                                <textarea class="textarea-field" placeholder="es. Deal velocity, Customer LTV, Partner satisfaction score"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="canvas-section">
+                        <div class="section-header">
+                            <i class="fas fa-calendar-check mr-2"></i>Timeline Implementazione
+                        </div>
+                        <div class="p-6">
+                            <div class="timeline-item">
+                                <div class="timeline-phase">Fase 1 - Setup (0-3 mesi)</div>
+                                <textarea class="textarea-field text-sm" placeholder="Partner onboarding, training, contratti"></textarea>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-phase">Fase 2 - Launch (3-6 mesi)</div>
+                                <textarea class="textarea-field text-sm" placeholder="Go-to-market, prime campagne, supporto intensivo"></textarea>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-phase">Fase 3 - Scale (6-12 mesi)</div>
+                                <textarea class="textarea-field text-sm" placeholder="Ottimizzazione, nuovi partner, espansione"></textarea>
+                            </div>
+                            
+                            <div class="timeline-item">
+                                <div class="timeline-phase">Fase 4 - Optimize (12+ mesi)</div>
+                                <textarea class="textarea-field text-sm" placeholder="Performance review, partnership strategiche"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 5: Risk Assessment & Success Factors -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <div class="canvas-section">
+                        <div class="section-header">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>Risk Assessment
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-6">
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Dipendenza da Partner Chiave</label>
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex-1">
+                                            <div class="risk-level risk-medium">
+                                                <div class="risk-fill"></div>
+                                            </div>
+                                        </div>
+                                        <span class="priority-badge priority-medium">Medium</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Competizione Mercato</label>
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex-1">
+                                            <div class="risk-level risk-high">
+                                                <div class="risk-fill"></div>
+                                            </div>
+                                        </div>
+                                        <span class="priority-badge priority-high">High</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Complessità Integrazione</label>
+                                    <div class="flex items-center space-x-4">
+                                        <div class="flex-1">
+                                            <div class="risk-level risk-low">
+                                                <div class="risk-fill"></div>
+                                            </div>
+                                        </div>
+                                        <span class="priority-badge priority-low">Low</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Strategie di Mitigazione</label>
+                                <textarea class="textarea-field" placeholder="Come mitigare i rischi identificati"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="canvas-section">
+                        <div class="section-header">
+                            <i class="fas fa-star mr-2"></i>Success Factors
+                        </div>
+                        <div class="p-6">
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Fattori Critici di Successo</label>
+                                <textarea class="textarea-field" placeholder="es. Quality partner selection, strong enablement, clear incentives"></textarea>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Risorse Necessarie</label>
+                                <textarea class="textarea-field" placeholder="Team, budget, tecnologie, competenze"></textarea>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Owner del Progetto</label>
+                                <input type="text" class="input-field" placeholder="Chi è responsabile dell'implementazione">
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Budget Allocato</label>
+                                <input type="text" class="input-field" placeholder="Budget per l'intero programma partner">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Row 6: Next Steps & Actions -->
+                <div class="canvas-section">
+                    <div class="section-header">
+                        <i class="fas fa-tasks mr-2"></i>Next Steps & Action Items
+                    </div>
+                    <div class="p-6">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-3">Prossimi 30 Giorni</h4>
+                                <div class="space-y-3">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox">
+                                        <input type="text" class="input-field text-sm ml-2" placeholder="Action item 1">
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox">
+                                        <input type="text" class="input-field text-sm ml-2" placeholder="Action item 2">
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox">
+                                        <input type="text" class="input-field text-sm ml-2" placeholder="Action item 3">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-3">Prossimi 90 Giorni</h4>
+                                <div class="space-y-3">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox">
+                                        <input type="text" class="input-field text-sm ml-2" placeholder="Action item 1">
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox">
+                                        <input type="text" class="input-field text-sm ml-2" placeholder="Action item 2">
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox">
+                                        <input type="text" class="input-field text-sm ml-2" placeholder="Action item 3">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-3">Obiettivi Anno 1</h4>
+                                <div class="space-y-3">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox">
+                                        <input type="text" class="input-field text-sm ml-2" placeholder="Obiettivo 1">
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox">
+                                        <input type="text" class="input-field text-sm ml-2" placeholder="Obiettivo 2">
+                                    </div>
+                                    <div class="checkbox-item">
+                                        <input type="checkbox">
+                                        <input type="text" class="input-field text-sm ml-2" placeholder="Obiettivo 3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="bg-gray-50 rounded-lg p-6 mt-8 text-center">
+                    <div class="text-gray-600 text-sm mb-2">
+                        <i class="fas fa-lightbulb mr-2 text-yellow-500"></i>
+                        <strong>Pro Tip:</strong> Rivedi e aggiorna questo Canvas ogni trimestre per mantenere la strategia allineata al mercato
+                    </div>
+                    <div class="text-gray-500 text-xs">
+                        Channel Strategy Canvas v2.0 | Template by Channel Management Expert
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-save functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input, textarea');
+            
+            inputs.forEach(input => {
+                // Load saved data
+                const savedValue = localStorage.getItem(`canvas_${input.name || input.id || inputs.indexOf(input)}`);
+                if (savedValue && input.type !== 'checkbox') {
+                    input.value = savedValue;
+                } else if (savedValue && input.type === 'checkbox') {
+                    input.checked = savedValue === 'true';
+                }
+                
+                // Save on change
+                input.addEventListener('change', function() {
+                    const key = `canvas_${input.name || input.id || inputs.indexOf(input)}`;
+                    if (input.type === 'checkbox') {
+                        localStorage.setItem(key, input.checked);
+                    } else {
+                        localStorage.setItem(key, input.value);
+                    }
+                });
+            });
+        });
+
+        // Print optimization
+        window.addEventListener('beforeprint', function() {
+            document.body.style.fontSize = '12px';
+        });
+
+        window.addEventListener('afterprint', function() {
+            document.body.style.fontSize = '';
+        });
+    </script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015" integrity="sha512-ZpsOmlRQV6y907TI0dKBHq9Md29nnaEIPlkf84rnaERnq6zvWvPUqr2ft8M1aS28oN72PdrCzSjY4U6VaAw1EQ==" data-cf-beacon='{"rayId":"974406df2ae0ca01","serverTiming":{"name":{"cfExtPri":true,"cfEdge":true,"cfOrigin":true,"cfL4":true,"cfSpeedBrain":true,"cfCacheStatus":true}},"version":"2025.8.0","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+</body>
+</html>
+    <script id="html_badge_script1">
+        window.__genspark_remove_badge_link = "https://www.genspark.ai/api/html_badge/" +
+            "remove_badge?token=To%2FBnjzloZ3UfQdcSaYfDnlBDaA%2Foxj1Fa7xczQZkR4fV2km3aD8q1TpGABmbWf0wTJ3PPPUgDopZc2Z6%2BmQUOOXTa%2B319pfKfur0iLWBvS1IiskAqvMzNjohoZbzrNdFhXKrGWiztnUeRL9kk5lGLFoxTGnNmVJFvEdf5nSsoJ%2BUX3EebARr7urkQ5Jx6qkQCjbQb7cIywKuYfm8gizyaDrMqwLQpDmny6jeZSrCRoNwSfWlQx0xPoqoTLguu5YilNlidp4kPCzzLyWj4%2Bt%2BwItGjkmR4w5%2BuoM2NwLiamFiQh8P4AC4fjV6UDYm%2FGFLjHv%2B9AZZk7yZgw9BWjxPVS95rFTF9av224NmQj2VfwJnrLZy%2BigyZmt4QJXuTHMZfLwvD2RVAXP0pJ2FXED4w%2BeF2%2BzMIXVZH8b0HUNFIz4pDN7RYvY1K%2Fq87Dv0ibTGEgOso85ibTCWzSkg%2Bnn9HCGyJoDKyYapQe6suNlpmcAyqN7ucfL9dURY1WEejzlQ6Pzoje%2BzwQBB8FFYdhBjtAiSyLhKefpO7Mf2%2B3Y0EAh1kEuU7RRwK6rmSUlw4FFu029e5uDdaKXBRfwrotsDA%3D%3D";
+        window.__genspark_locale = "it-IT";
+        window.__genspark_token = "To/BnjzloZ3UfQdcSaYfDnlBDaA/oxj1Fa7xczQZkR4fV2km3aD8q1TpGABmbWf0wTJ3PPPUgDopZc2Z6+mQUOOXTa+319pfKfur0iLWBvS1IiskAqvMzNjohoZbzrNdFhXKrGWiztnUeRL9kk5lGLFoxTGnNmVJFvEdf5nSsoJ+UX3EebARr7urkQ5Jx6qkQCjbQb7cIywKuYfm8gizyaDrMqwLQpDmny6jeZSrCRoNwSfWlQx0xPoqoTLguu5YilNlidp4kPCzzLyWj4+t+wItGjkmR4w5+uoM2NwLiamFiQh8P4AC4fjV6UDYm/GFLjHv+9AZZk7yZgw9BWjxPVS95rFTF9av224NmQj2VfwJnrLZy+igyZmt4QJXuTHMZfLwvD2RVAXP0pJ2FXED4w+eF2+zMIXVZH8b0HUNFIz4pDN7RYvY1K/q87Dv0ibTGEgOso85ibTCWzSkg+nn9HCGyJoDKyYapQe6suNlpmcAyqN7ucfL9dURY1WEejzlQ6Pzoje+zwQBB8FFYdhBjtAiSyLhKefpO7Mf2+3Y0EAh1kEuU7RRwK6rmSUlw4FFu029e5uDdaKXBRfwrotsDA==";
+    </script>
+    
+    <script id="html_notice_dialog_script" src="https://www.genspark.ai/notice_dialog.js"></script>
+    
